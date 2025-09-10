@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
   // API url: https://api.weatherapi.com/v1/current.json?key=$apiKey&q=$cityName
 
   if ($cityName === 'Lima') {
-    $_SESSION["status"] = true;
+    $_SESSION["status"] = "ok";
     $_SESSION["response"] = [
       "condition_icon" => "//cdn.weatherapi.com/weather/64x64/night/116.png",
       "condition_text" => "Despejado",
@@ -22,8 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
       "humidity"       => "78",
       "wind_kph"     => "6.1",
     ];
-  } else {
-    $_SESSION["status"] = false;
+  } elseif (isset($cityName) && $cityName !== "") {
+    $_SESSION["status"] = "404";
   }
 
 

@@ -1,6 +1,6 @@
 <?php
-session_start();
-$status = $_SESSION["status"] ?? null;
+  session_start();
+  $status = $_SESSION["status"] ?? null;
 ?>
 
 <!DOCTYPE html>
@@ -17,13 +17,16 @@ $status = $_SESSION["status"] ?? null;
   <link rel="stylesheet" href="/assets/css/styles.css" />
 </head>
 
-<body>
+<body class="bg-gray-100/50 min-h-screen flex items-center">
   <!-- WRAPPER -->
-  <div class="w-[25rem] border p-4 rounded-lg mx-auto my-15 flex flex-col *:!text-lg *:!font-light">
+  <div class="bg-white bg-opacity-75 backdrop-blur-sm border border-white border-opacity-30 shadow-2xl w-[22rem] border p-6 rounded-2xl mx-auto my-15 flex flex-col *:!text-lg *:!font-light">
     <!-- FORM CONTAINER -->
     <form
-      x-data="{ cityName: '' }"
-      class="flex w-full rounded-lg border"
+      x-data="{ cityName: '' }" // cambiar nombre de ciudad por ''
+      class="flex w-full rounded-lg mb-4
+              border-b-2 border-gray-300
+              focus:border-indigo-600 focus:outline-none 
+              px-4 py-2 transition duration-300 ease-in-out"
       action="api/weather_api.php"
       method="GET">
       <!-- ICON -->
@@ -36,23 +39,23 @@ $status = $_SESSION["status"] ?? null;
           class="flex items-center justify-center hover:cursor-pointer"
           type="reset"
           title="Reset">
-          <span class="material-symbols-rounded">close</span>
+          <span class="text-gray-600 material-symbols-rounded">close</span>
         </button>
       </div>
 
       <!-- INPUT LAYER -->
-      <div class="relative z-0 flex-1 flex items-center py-2">
+      <div class="ml-2 relative z-0 flex-1 flex items-center py-2">
         <input
           x-model="cityName"
           class="peer w-full focus:outline-none"
           type="text"
           id="cityName"
           name="cityName"
-          placeholder=" "
+          placeholder=""
           value=""
           autocomplete="off" />
         <label
-          class="absolute z-5 pointer-events-none transition-all text-gray-600 bg-white peer-focus:px-1 peer-focus:translate-y-[-20px] peer-focus:text-sm peer-not-placeholder-shown:px-1 peer-not-placeholder-shown:translate-y-[-20px] peer-not-placeholder-shown:text-sm peer-not-placeholder-shown:text-black"
+          class="absolute z-5 pointer-events-none transition-all text-gray-600 bg-white peer-focus:px-1 peer-focus:translate-y-[-20px] peer-focus:text-sm peer-not-placeholder-shown:px-0 peer-not-placeholder-shown:translate-y-[-20px] peer-not-placeholder-shown:text-sm peer-not-placeholder-shown:text-gray-600"
           for="cityName">City Name</label>
       </div>
 
@@ -61,16 +64,16 @@ $status = $_SESSION["status"] ?? null;
         class="flex items-center justify-center px-3 hover:cursor-pointer"
         type="submit"
         title="Search">
-        <span class="material-symbols-rounded">search</span>
+        <span class=" material-symbols-rounded">search</span>
       </button>
     </form>
 
     <!-- RESPONSE CONTAINER -->
     <?php
-    if ($status === true && isset($_SESSION["response"])) {
+    if ($status === "ok") {
       $response = $_SESSION["response"];
       include "includes/response.php";
-    } elseif ($status === false) {
+    } elseif ($status === "404") {
       include "includes/404.php";
     }
 
