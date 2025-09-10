@@ -1,0 +1,21 @@
+# Dependencias de Composer
+/vendor/
+
+# Variables de entorno
+.env
+
+# Archivos de configuración locales
+# config.php
+
+# Archivos de logs y caché
+*.log
+*.cache
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de respaldo o temporales
+*.bak
+*.tmp
+*.swp
