@@ -1,7 +1,7 @@
 <?php
-  session_start();
-  $status = $_SESSION["status"] ?? null;
-  $cityName=htmlspecialchars($_GET["cityName"])
+session_start();
+$status = $_SESSION["status"] ?? null;
+$cityName = $_GET["cityName"] ?? "";
 ?>
 
 <!DOCTYPE html>
@@ -18,16 +18,16 @@
   <link rel="stylesheet" href="/assets/css/styles.css" />
 </head>
 
-<body class="bg-gray-100/50 min-h-screen flex items-center">
+<body class="bg-gray-100/50 min-h-screen flex items-center overflow-y-scroll">
   <!-- WRAPPER -->
   <div class="bg-white bg-opacity-75 backdrop-blur-sm border border-white border-opacity-30 shadow-2xl w-[22rem] border p-6 rounded-2xl mx-auto my-15 flex flex-col *:!text-lg *:!font-light">
     <!-- FORM CONTAINER -->
     <form
       x-data="{ cityName: '<?php echo $cityName ?>' }" // cambiar nombre de ciudad por ''
-      class="flex w-full rounded-lg mb-4
+      class="flex w-full rounded-lg
               border-b-2 border-gray-300
               focus:border-indigo-600 focus:outline-none 
-              px-4 py-2 transition duration-300 ease-in-out"
+              px-4 py-1 transition duration-300 ease-in-out shadow-sm"
       action="api/weather_api.php"
       method="GET">
       <!-- ICON -->
@@ -56,7 +56,11 @@
           value=""
           autocomplete="off" />
         <label
-          class="absolute z-5 pointer-events-none transition-all text-gray-600 bg-white peer-focus:px-1 peer-focus:translate-y-[-20px] peer-focus:text-sm peer-not-placeholder-shown:px-0 peer-not-placeholder-shown:translate-y-[-20px] peer-not-placeholder-shown:text-sm peer-not-placeholder-shown:text-gray-600"
+          class="
+            absolute z-5 pointer-events-none transition-all duration-500 ease-and-out text-gray-600 bg-white
+            peer-focus:px-1 peer-focus:translate-x-[120%] peer-focus:opacity-0
+            peer-not-placeholder-shown:px-1 peer-not-placeholder-shown:translate-x-[200%] peer-not-placeholder-shown:opacity-0
+          "
           for="cityName">City Name</label>
       </div>
 
