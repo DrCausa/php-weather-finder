@@ -4,28 +4,41 @@ session_start();
 require_once __DIR__ . "/../config.php";
 
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
-  $cityName = $_GET["cityName"];
-
-  // TODO: agregar conexión y retornar resultados
-  //
-  // condition_icon codes -> https://www.weatherapi.com/docs/weather_conditions.json
-  // eg. "//cdn.weatherapi.com/weather/64x64/night/$condition_code.png"
-  //
-  // API url: https://api.weatherapi.com/v1/current.json?key=$apiKey&q=$cityName
-
-  if ($cityName === 'Lima') {
-    $_SESSION["status"] = "ok";
-    $_SESSION["response"] = [
-      "condition_icon" => "//cdn.weatherapi.com/weather/64x64/night/116.png",
-      "condition_text" => "Despejado",
-      "temperature"    => "17.2",
-      "humidity"       => "78",
-      "wind_kph"     => "6.1",
-    ];
-  } elseif (isset($cityName) && $cityName !== "") {
-    $_SESSION["status"] = "404";
-  }
-
-
-  header("Location:/?cityName=$cityName");
+    $cityName = $_GET["cityName"];
+    
+    // Construir la URL de la API con la clave y la ciudad
+    $apiUrl = "https://api.weatherapi.com/v1/current.json?key=".$_ENV['API_KEY']."&lang=es"."&q=". urlencode($cityName);
+    
+    // Realizar la conexión y obtener los datos con cURL
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    
+    // Decodificar la respuesta JSON
+    $data = json_decode($response, true);
+    
+    // Verificar si la solicitud fue exitosa y los datos existen
+    if (isset($data["current"]) && isset($data["location"])) {
+  
+        $last_updated_epoch = $data["current"]["last_updated_epoch"];
+        $condition_icon = $data["current"]["condition"]["icon"];
+        $_SESSION["status"] = "ok";
+        $_SESSION["response"] = [
+            "condition_icon" => $condition_icon ,
+            "condition_text" => $data["current"]["condition"]["text"],
+            "temperature" => $data["current"]["temp_c"],
+            "humidity" => $data["current"]["humidity"],
+            "wind_kph" => $data["current"]["wind_kph"],
+            "location_name" => $data["location"]["name"],
+            "location_region" => $data["location"]["region"],
+            "location_country" => $data["location"]["country"],
+            "last_updated_epoch" => $last_updated_epoch
+        ];
+    } else {
+        $_SESSION["status"] = "404";
+    }
+    
+    header("Location:/?cityName=$cityName");
 }

@@ -1,6 +1,7 @@
 <?php
   session_start();
   $status = $_SESSION["status"] ?? null;
+  $cityName=htmlspecialchars($_GET["cityName"])
 ?>
 
 <!DOCTYPE html>
@@ -9,7 +10,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>PHP Weather Finder</title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link
     rel="stylesheet"
@@ -22,7 +23,7 @@
   <div class="bg-white bg-opacity-75 backdrop-blur-sm border border-white border-opacity-30 shadow-2xl w-[22rem] border p-6 rounded-2xl mx-auto my-15 flex flex-col *:!text-lg *:!font-light">
     <!-- FORM CONTAINER -->
     <form
-      x-data="{ cityName: '' }" // cambiar nombre de ciudad por ''
+      x-data="{ cityName: '<?php echo $cityName ?>' }" // cambiar nombre de ciudad por ''
       class="flex w-full rounded-lg mb-4
               border-b-2 border-gray-300
               focus:border-indigo-600 focus:outline-none 
