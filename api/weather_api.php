@@ -22,11 +22,9 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     // Verificar si la solicitud fue exitosa y los datos existen
     if (isset($data["current"]) && isset($data["location"])) {
 
-        $last_updated_epoch = $data["current"]["last_updated_epoch"];
-        $condition_icon = $data["current"]["condition"]["icon"];
         $_SESSION["status"] = "ok";
         $_SESSION["response"] = [
-            "condition_icon" => $condition_icon,
+            "condition_icon" => $data["current"]["condition"]["icon"],
             "condition_text" => $data["current"]["condition"]["text"],
             "temperature" => $data["current"]["temp_c"],
             "humidity" => $data["current"]["humidity"],
@@ -34,9 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
             "location_name" => $data["location"]["name"],
             "location_region" => $data["location"]["region"],
             "location_country" => $data["location"]["country"],
-            "last_updated_epoch" => $last_updated_epoch
         ];
-    } else {
+    } elseif (!empty(str_replace(" ", "", $cityName))) {
         $_SESSION["status"] = "404";
     }
 

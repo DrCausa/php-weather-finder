@@ -75,7 +75,7 @@ $cityName = $_GET["cityName"] ?? "";
 
     <!-- RESPONSE CONTAINER -->
     <?php
-    if ($status === "ok") {
+    if (isset($status) && $status === "ok") {
       $response = $_SESSION["response"];
       include "includes/response.php";
     } elseif ($status === "404") {
